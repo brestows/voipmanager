@@ -4,6 +4,7 @@
 #include <QDialog>
 
 class QListWidgetItem;
+class QSettings;
 
 namespace Ui {
 class Settings;
@@ -26,6 +27,7 @@ protected:
 
 private:
     Ui::Settings *ui;
+    QSettings *options;
     void settingsForm();
 
 private slots:

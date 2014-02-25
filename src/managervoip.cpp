@@ -34,13 +34,13 @@ ManagerVoIP::ManagerVoIP(QWidget *parent) :    QMainWindow(parent),    ui(new Ui
                              QSizePolicy::Expanding);
     ui->mainToolBar->addWidget(separator);
     ui->mainToolBar->addWidget(new QLabel("Server: ", ui->mainToolBar));
-    //ui->mainToolBar->addWidget(bx);
     ui->mainToolBar->addAction(wd);
 
 }
 
 ManagerVoIP::~ManagerVoIP()
 {
+    options->saveSettings();
     delete ui;
 }
 

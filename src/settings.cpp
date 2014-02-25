@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QRegExpValidator>
 #include <QList>
+#include <QSettings>
 
 #include <QDebug>
 
@@ -15,6 +16,8 @@ Settings::Settings(QWidget *parent) :    QDialog(parent),    ui(new Ui::Settings
     ui->AreaSettings->setCurrentIndex(0);
     ui->lstSection->setCurrentRow(0);
     settingsForm();
+    options = new QSettings("managervoip.conf", QSettings::NativeFormat);
+    options->setParent(this);
 }
 
 Settings::~Settings()
@@ -57,4 +60,10 @@ void Settings::changeSection(QListWidgetItem *current,QListWidgetItem *previous)
         current=previous;
     }
     ui->AreaSettings->setCurrentIndex(ui->lstSection->row(current));
+}
+
+void Settings::saveSettings()
+{
+    options->setValue("CDR/driver", "MYSQL");
+    options->sync();
 }

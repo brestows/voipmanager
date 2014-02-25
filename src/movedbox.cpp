@@ -12,10 +12,36 @@ MovedBox::MovedBox(QWidget *parent) : QGroupBox(parent)
     createMenu();
 }
 
+
 void MovedBox::createMenu()
 {
     menu=new QMenu(this);
-    menu->addAction(new QAction("Tests", this));
+    initActions();
+    menu->addAction(fixedSize);
+    menu->addAction(fixedPosition);
+    menu->addSeparator();
+    menu->addAction(hideBox);
+
+}
+
+void MovedBox::initActions()
+{
+    fixedSize = new QAction(this);
+    fixedSize->setText(tr("Fixed Size"));
+    fixedSize->setCheckable(true);
+
+    fixedPosition = new QAction(this);
+    fixedPosition->setText(tr("Fixed Position"));
+    fixedPosition->setCheckable(true);
+
+    hideBox = new QAction(this);
+    hideBox->setText(tr("Hode Box"));
+    connect(hideBox,SIGNAL(triggered()),SLOT(hide_box()));
+}
+
+void MovedBox::hide_box()
+{
+    this->hide();
 }
 
 void MovedBox::mouseMoveEvent(QMouseEvent *event)
@@ -24,7 +50,8 @@ void MovedBox::mouseMoveEvent(QMouseEvent *event)
     {
     case Qt::MidButton:
     {
-        this->move(event->globalPos() - Position);
+        if(!fixedPosition->isChecked())
+            this->move(event->globalPos() - Position);
     }break;
     case Qt::LeftButton:
     {
@@ -35,6 +62,7 @@ void MovedBox::mouseMoveEvent(QMouseEvent *event)
         size_x = glb.x() - x;
         size_y = glb.y() - y;
 
+        if(!fixedSize->isChecked())
         switch((int)this->cursor().shape())
         {
         case Qt::SizeFDiagCursor:
@@ -64,22 +92,25 @@ void MovedBox::mouseMoveEvent(QMouseEvent *event)
     }break;
     default:
     {
-        QPoint glb = mapToGlobal(event->globalPos());
-        QPoint tpm = this->pos() + OffSet;
-        tpm.setX(tpm.x()+this->size().width());
-        tpm.setY(tpm.y()+this->size().height());
-        QPoint lcl = mapToGlobal(tpm);
-        QPoint angleResize(10,10);
-        QPoint tmp = lcl-glb;
-        if(tmp.x() < angleResize.x() && tmp.y() < angleResize.y())
-            this->setCursor(Qt::SizeFDiagCursor);
-        else if (tmp.x() < angleResize.x() )
-            this->setCursor(Qt::SizeHorCursor);
-        else if (tmp.y() < angleResize.y() )
-            this->setCursor(Qt::SizeVerCursor);
-        else
-            this->setCursor(Qt::ArrowCursor);
-        qDebug()<< lcl - glb;
+        if(!fixedSize->isChecked())
+        {
+            QPoint glb = mapToGlobal(event->globalPos());
+            QPoint tpm = this->pos() + OffSet;
+            tpm.setX(tpm.x()+this->size().width());
+            tpm.setY(tpm.y()+this->size().height());
+            QPoint lcl = mapToGlobal(tpm);
+            QPoint angleResize(10,10);
+            QPoint tmp = lcl-glb;
+            if(tmp.x() < angleResize.x() && tmp.y() < angleResize.y())
+                this->setCursor(Qt::SizeFDiagCursor);
+            else if (tmp.x() < angleResize.x() )
+                this->setCursor(Qt::SizeHorCursor);
+            else if (tmp.y() < angleResize.y() )
+                this->setCursor(Qt::SizeVerCursor);
+            else
+                this->setCursor(Qt::ArrowCursor);
+            //qDebug()<< lcl - glb;
+        }
     }break;
     }
     event->accept();
@@ -89,14 +120,13 @@ void MovedBox::mousePressEvent(QMouseEvent *event)
 {
     switch (event->buttons())
     {
-        case Qt::MidButton:
-        {
-            Position = event->pos()+OffSet;
-            this->setCursor(Qt::SizeAllCursor);
-        }break;
+    case Qt::MidButton:
+    {
+        Position = event->pos()+OffSet;
+        this->setCursor(Qt::SizeAllCursor);
+    }break;
     case Qt::RightButton:
     {
-        qDebug()<< event->pos();
         menu->exec(mapToGlobal(event->pos()));
     }break;
     }
@@ -107,13 +137,10 @@ void MovedBox::mousePressEvent(QMouseEvent *event)
 void MovedBox::mouseReleaseEvent(QMouseEvent *event)
 {
     this->setCursor(Qt::ArrowCursor);
-     qDebug() << "Release " << event->globalPos();
-     qDebug() << "END" << this->pos();
-     event->accept();
+    event->accept();
 }
 
 void MovedBox::setOffset(int y)
 {
- //   qDebug() << "YYY " << y;
     OffSet.setY(y-13);
 }

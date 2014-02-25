@@ -18,7 +18,7 @@ cDataBase::cDataBase()
         m_db.setHostName("192.168.0.11");
         m_db.setDatabaseName("asteriskcdrdb");
         m_db.setUserName("voip");
-        m_db.setPassword("ZGE1YTY4Yz");
+        m_db.setPassword("sdjIJLSieHPHkj");
         open_db = m_db.open();
         if(open_db)
         {
@@ -47,7 +47,6 @@ int cDataBase::Insert(int id, QString name)
     QSqlQuery query;
  
     query.prepare("INSERT INTO names2 (id, name) VALUES (?, ?)");
-    //addBindValue решает проблему экранирования, поэтому добавлять значения надо именно этой функцией
     query.addBindValue(id);
     query.addBindValue(name);
  
@@ -55,9 +54,7 @@ int cDataBase::Insert(int id, QString name)
         QMessageBox::warning(0,"Error", query.lastError().text());
         return -1;
     }
-    //получаем id вставленной записи
     int rer = query.lastInsertId().toInt();
-   
     return rer;
  
 }

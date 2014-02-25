@@ -3,6 +3,7 @@
 
 #include <QGroupBox>
 class QMenu;
+class QAction;
 class MovedBox : public QGroupBox
 {
     Q_OBJECT
@@ -17,7 +18,13 @@ private:
     QPoint Position;
     QPoint OffSet;
     QMenu *menu;
+    QAction *hideBox;
+    QAction *fixedSize;
+    QAction *fixedPosition;
     void createMenu();
+    void initActions();
+private slots:
+    void hide_box();
 signals:
 
 public slots:
