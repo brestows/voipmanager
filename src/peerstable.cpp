@@ -56,10 +56,10 @@ void PeersTable::settingsGrid()
 
     Asterisk aster;
     QHBoxLayout *vbox = new QHBoxLayout;
-    aster.setHost(Options::getInstance().voip_getIP(QString("Test")));
-    aster.setPort(Options::getInstance().voip_getPort(QString("Test")));
-    aster.setUserName(Options::getInstance().voip_getUserName(QString("Test")));
-    aster.setPassword(Options::getInstance().voip_getPassword(QString("Test")));
+    aster.setHost(Options::getInstance().voip_getIP(QString("Belarus")));
+    aster.setPort(Options::getInstance().voip_getPort(QString("Belarus")));
+    aster.setUserName(Options::getInstance().voip_getUserName(QString("Belarus")));
+    aster.setPassword(Options::getInstance().voip_getPassword(QString("Belarus")));
     QList<QStringList> lst = aster.getPeers();
     if(lst.size()>0)
     {
@@ -115,5 +115,5 @@ void PeersTable::settingsGrid()
 
 void PeersTable::changeServer(QString srv)
 {
-    qDebug() << "Server is " << srv;
+    qDebug() << "Peers Table Server is " << srv;
 }

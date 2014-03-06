@@ -42,7 +42,7 @@
        </property>
        <widget class="QWidget" name="areaGeneral"/>
        <widget class="QWidget" name="areaVoIP">
-        <widget class="IPCtrl" name="txtHostVoIP">
+        <widget class="IPCtrl" name="txtVoip_Host">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -58,7 +58,7 @@
           <enum>QFrame::Raised</enum>
          </property>
         </widget>
-        <widget class="QLineEdit" name="txtPortVoIP">
+        <widget class="QLineEdit" name="txtVoip_Port">
          <property name="geometry">
           <rect>
            <x>300</x>
@@ -100,7 +100,7 @@
           <string>Port :</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="txtUserNameVoIP">
+        <widget class="QLineEdit" name="txtVoip_UserName">
          <property name="geometry">
           <rect>
            <x>160</x>
@@ -110,7 +110,7 @@
           </rect>
          </property>
         </widget>
-        <widget class="QLineEdit" name="txtPassVoIP">
+        <widget class="QLineEdit" name="txtVoip_Pass">
          <property name="geometry">
           <rect>
            <x>300</x>
@@ -123,7 +123,7 @@
           <enum>QLineEdit::Password</enum>
          </property>
         </widget>
-        <widget class="QListWidget" name="lstServer">
+        <widget class="QListWidget" name="lstVoip_Server">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -157,14 +157,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="cmdDelServer">
+           <widget class="QPushButton" name="cmdVoip_DelServer">
             <property name="text">
              <string>Delete Server</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="cmdAddServer">
+           <widget class="QPushButton" name="cmdVoip_AddServer">
             <property name="text">
              <string>Add Server</string>
             </property>
@@ -198,6 +198,29 @@
           <string>Password :</string>
          </property>
         </widget>
+        <widget class="QLineEdit" name="txtVoip_SrvName">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>180</y>
+           <width>113</width>
+           <height>21</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_14">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>160</y>
+           <width>101</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Server Name:</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="areaCdr">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -212,7 +235,7 @@
            <property name="checked">
             <bool>true</bool>
            </property>
-           <widget class="QComboBox" name="cmbDataBase">
+           <widget class="QComboBox" name="cmbCDR_DataBase">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -223,7 +246,7 @@
             </property>
             <item>
              <property name="text">
-              <string>MariaDB(MySQL)</string>
+              <string>MariaDB</string>
              </property>
             </item>
             <item>
@@ -232,7 +255,7 @@
              </property>
             </item>
            </widget>
-           <widget class="QTextEdit" name="txtSQLQuery">
+           <widget class="QTextEdit" name="txtCDR_SQLQuery">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -255,7 +278,7 @@
              <string>Type CDR</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="txtdbName">
+           <widget class="QLineEdit" name="txtCDR_dbName">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -265,7 +288,7 @@
              </rect>
             </property>
            </widget>
-           <widget class="QLineEdit" name="txtTableName">
+           <widget class="QLineEdit" name="txtCDR_TableName">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -275,7 +298,7 @@
              </rect>
             </property>
            </widget>
-           <widget class="QLineEdit" name="txtUserName">
+           <widget class="QLineEdit" name="txtCDR_UserName">
             <property name="geometry">
              <rect>
               <x>190</x>
@@ -285,7 +308,7 @@
              </rect>
             </property>
            </widget>
-           <widget class="QLineEdit" name="txtPassword">
+           <widget class="QLineEdit" name="txtCDR_Password">
             <property name="geometry">
              <rect>
               <x>190</x>
@@ -336,7 +359,7 @@
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="IPCtrl" name="txtHostCDR">
+              <widget class="IPCtrl" name="txtCDR_Host">
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -371,7 +394,7 @@
               </widget>
              </item>
              <item row="1" column="2">
-              <widget class="QLineEdit" name="txtPort">
+              <widget class="QLineEdit" name="txtCDR_Port">
                <property name="minimumSize">
                 <size>
                  <width>55</width>
@@ -393,6 +416,58 @@
               </widget>
              </item>
             </layout>
+           </widget>
+           <widget class="QLabel" name="label_10">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>120</y>
+              <width>121</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>DataBase:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_11">
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>120</y>
+              <width>121</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>User:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_12">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>160</y>
+              <width>121</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Table DataBase:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_13">
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>160</y>
+              <width>121</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Password:</string>
+            </property>
            </widget>
           </widget>
          </item>

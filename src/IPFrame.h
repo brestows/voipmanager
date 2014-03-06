@@ -18,7 +18,7 @@ public:
     ~IPCtrl();
     QString Text();
     void setText(QString);
-
+    void clear();
     virtual bool eventFilter( QObject *obj, QEvent *event );
 
 public slots:

@@ -176,10 +176,22 @@ void IPCtrl::MovePrevLineEdit(int i)
 void IPCtrl::setText(QString ip)
 {
     QStringList lst = ip.split(".");
+    if(lst.size()!=4)
+        qDebug()<< "Wrong IP address!";
+    else
+    {
+        QList<QLineEdit *> allIP = this->findChildren<QLineEdit *>();
+        for(int i =0; i<allIP.size();++i)
+           allIP.at(i)->setText(lst.at(i));
+    }
+
+}
+
+void IPCtrl::clear()
+{
     QList<QLineEdit *> allIP = this->findChildren<QLineEdit *>();
     for(int i =0; i<allIP.size();++i)
-        allIP.at(i)->setText(lst.at(i));
-
+        allIP.at(i)->setText("");
 }
 
 QString IPCtrl::Text()

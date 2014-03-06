@@ -31,12 +31,12 @@ public:
     void saveOptions();
     void applyOptions();
     void writeOptions(QString, QString);
-    void voip_saveSrv(QMap<QString, QString> srvSettings, QString srvName);
     QString voip_getPassword(QString nameSrv);
     QString voip_getUserName(QString nameSrv);
     QString voip_getPort(QString nameSrv);
     QString voip_getIP(QString nameSrv);
     QString readOptions(QString opt);
+    void deleteSettingsGroup(QString grp);
 };
 
 #endif // OPTIONS_H

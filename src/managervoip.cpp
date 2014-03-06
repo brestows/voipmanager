@@ -22,11 +22,10 @@ ManagerVoIP::ManagerVoIP(QWidget *parent) :    QMainWindow(parent),    ui(new Ui
     createConnection();
     QWidgetAction *wd = new QWidgetAction(this);
     QComboBox *bx = new QComboBox();
-    bx->addItem("TEst");
-    bx->addItem("tetet222");
+    QStringList lst = Options::getInstance().readOptions(QString("ServerList/server")).split(",");
+    bx->addItems(lst);
     connect(bx,SIGNAL(currentIndexChanged(QString)),SIGNAL(changeServer(QString)));
     wd->setDefaultWidget(bx);
-
     QWidget *separator = new QWidget(this);
     separator->setSizePolicy(QSizePolicy::Expanding,
                              QSizePolicy::Expanding);
