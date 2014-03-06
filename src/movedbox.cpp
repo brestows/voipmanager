@@ -6,26 +6,11 @@
 #include <QMenu>
 #include <QPoint>
 
+#include <options.h>
 MovedBox::MovedBox(QWidget *parent) : QGroupBox(parent)
 {
     this->setMouseTracking(true);
-    createMenu();
-}
-
-
-void MovedBox::createMenu()
-{
     menu=new QMenu(this);
-    initActions();
-    menu->addAction(fixedSize);
-    menu->addAction(fixedPosition);
-    menu->addSeparator();
-    menu->addAction(hideBox);
-
-}
-
-void MovedBox::initActions()
-{
     fixedSize = new QAction(this);
     fixedSize->setText(tr("Fixed Size"));
     fixedSize->setCheckable(true);
@@ -36,8 +21,24 @@ void MovedBox::initActions()
 
     hideBox = new QAction(this);
     hideBox->setText(tr("Hode Box"));
+
     connect(hideBox,SIGNAL(triggered()),SLOT(hide_box()));
 }
+
+MovedBox::~MovedBox()
+{
+    Options::getInstance().writeOptions(QString("%1/positions").arg(this->objectName()), QString("%1,%2").arg(this->pos().x()).arg(this->pos().y()));
+    Options::getInstance().writeOptions(QString("%1/size").arg(this->objectName()), QString("%1,%2").arg(this->size().width()).arg(this->size().height()));
+}
+
+//void MovedBox::createMenu()
+//{
+//    menu->addAction(fixedSize);
+//    menu->addAction(fixedPosition);
+//    menu->addSeparator();
+//    menu->addAction(hideBox);
+//    menuVisible = false;
+//}
 
 void MovedBox::hide_box()
 {
@@ -51,11 +52,12 @@ void MovedBox::mouseMoveEvent(QMouseEvent *event)
     case Qt::MidButton:
     {
         if(!fixedPosition->isChecked())
-            this->move(event->globalPos() - Position);
+           this->move(mapToParent(event->pos() - Position));
     }break;
     case Qt::LeftButton:
     {
-        QPoint glb = event->globalPos() - OffSet;
+        QPoint glb = event->globalPos();
+        glb.setY(glb.y()-14);
         int x,y,size_x,size_y;
         x = this->pos().x();
         y = this->pos().y();
@@ -67,22 +69,20 @@ void MovedBox::mouseMoveEvent(QMouseEvent *event)
         {
         case Qt::SizeFDiagCursor:
         {
-            if(size_x >this->minimumSize().width())
+            if(size_x > this->minimumSize().width())
                 this->setGeometry(x,y,size_x,this->size().height());
-            if(size_y >this->minimumSize().height())
+            if(size_y > this->minimumSize().height())
                 this->setGeometry(x,y,this->size().width(),size_y);
             break;
         }
         case Qt::SizeHorCursor:
         {
-            qDebug() << "Hor";
             if(size_x >this->minimumSize().width())
                 this->setGeometry(x,y,size_x,this->size().height());
             break;
         }
         case Qt::SizeVerCursor:
         {
-            qDebug() << "Ver";
             if(size_y >this->minimumSize().height())
                 this->setGeometry(x,y,this->size().width(),size_y);
             break;
@@ -94,18 +94,22 @@ void MovedBox::mouseMoveEvent(QMouseEvent *event)
     {
         if(!fixedSize->isChecked())
         {
-            QPoint glb = mapToGlobal(event->globalPos());
-            QPoint tpm = this->pos() + OffSet;
+            int x,y;
+            QPoint glb = mapToParent(event->globalPos());
+            QPoint tpm = this->pos();
             tpm.setX(tpm.x()+this->size().width());
             tpm.setY(tpm.y()+this->size().height());
             QPoint lcl = mapToGlobal(tpm);
-            QPoint angleResize(10,10);
+            QPoint angleResize(5,5);
             QPoint tmp = lcl-glb;
-            if(tmp.x() < angleResize.x() && tmp.y() < angleResize.y())
+            x =  tmp.x();
+            y = tmp.y();
+           // qDebug() << x << " " << y;
+            if(x < angleResize.x() && y < angleResize.y())
                 this->setCursor(Qt::SizeFDiagCursor);
-            else if (tmp.x() < angleResize.x() )
+            else if (x < angleResize.x() )
                 this->setCursor(Qt::SizeHorCursor);
-            else if (tmp.y() < angleResize.y() )
+            else if (y < angleResize.y() )
                 this->setCursor(Qt::SizeVerCursor);
             else
                 this->setCursor(Qt::ArrowCursor);
@@ -122,7 +126,7 @@ void MovedBox::mousePressEvent(QMouseEvent *event)
     {
     case Qt::MidButton:
     {
-        Position = event->pos()+OffSet;
+        Position = event->pos();
         this->setCursor(Qt::SizeAllCursor);
     }break;
     case Qt::RightButton:
@@ -140,7 +144,12 @@ void MovedBox::mouseReleaseEvent(QMouseEvent *event)
     event->accept();
 }
 
-void MovedBox::setOffset(int y)
-{
-    OffSet.setY(y-13);
-}
+//void MovedBox::setMenuVisible(bool vis)
+//{
+//    menuVisible = vis;
+//}
+
+//void MovedBox::initialMenu()
+//{
+//     createMenu();
+//}

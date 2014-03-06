@@ -26,15 +26,13 @@ private:
     Ui::ManagerVoIP *ui;
     QSqlTableModel *model;
     cDataBase *cdr_db;
-    Settings *options;
-    int correctHeight;
+    Settings *setting;
     void createConnection();
-    void setCorrect();
 
 private slots:
     void showSettings();
-    void visibleToolBar(bool);
-    void visibleMenuBar(bool);
+signals:
+    void changeServer(QString);
 };
 
 #endif // MANAGERVOIP_H

@@ -3,7 +3,8 @@
 #include <QtSql/QSqlQuery>
 #include <QMessageBox>
 #include <QtSql>
- 
+
+#include "options.h"
 cDataBase::cDataBase()
 {
     //строка соединения
@@ -13,12 +14,12 @@ cDataBase::cDataBase()
         m_db = QSqlDatabase::database(connection);
     } else {
         //подключаемся через QSQLITE драйвер
-        m_db = QSqlDatabase::addDatabase("QMYSQL", connection);
+        m_db = QSqlDatabase::addDatabase(Options::getInstance().readOptions(QString("CDR_DateBase/type")), connection);
         //вписываем имя БД
-        m_db.setHostName("192.168.0.11");
-        m_db.setDatabaseName("asteriskcdrdb");
-        m_db.setUserName("voip");
-        m_db.setPassword("sdjIJLSieHPHkj");
+        m_db.setHostName(Options::getInstance().readOptions(QString("CDR_DateBase/host")));
+        m_db.setDatabaseName(Options::getInstance().readOptions(QString("CDR_DateBase/db")));
+        m_db.setUserName(Options::getInstance().readOptions(QString("CDR_DateBase/user")));
+        m_db.setPassword(Options::getInstance().readOptions(QString("CDR_DateBase/pass")));
         open_db = m_db.open();
         if(open_db)
         {
@@ -31,6 +32,7 @@ cDataBase::cDataBase()
         }
     }
 }
+
  
 QSqlDatabase cDataBase::get_db()
 {

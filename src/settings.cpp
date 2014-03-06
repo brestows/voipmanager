@@ -1,5 +1,6 @@
 #include "settings.h"
 #include "ui_settings.h"
+#include "options.h"
 
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -16,8 +17,6 @@ Settings::Settings(QWidget *parent) :    QDialog(parent),    ui(new Ui::Settings
     ui->AreaSettings->setCurrentIndex(0);
     ui->lstSection->setCurrentRow(0);
     settingsForm();
-    options = new QSettings("managervoip.conf", QSettings::NativeFormat);
-    options->setParent(this);
 }
 
 Settings::~Settings()
@@ -62,8 +61,3 @@ void Settings::changeSection(QListWidgetItem *current,QListWidgetItem *previous)
     ui->AreaSettings->setCurrentIndex(ui->lstSection->row(current));
 }
 
-void Settings::saveSettings()
-{
-    options->setValue("CDR/driver", "MYSQL");
-    options->sync();
-}
